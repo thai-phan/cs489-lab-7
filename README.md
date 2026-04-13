@@ -7,6 +7,9 @@ This project now includes a minimal Spring Boot MVC app backed by PostgreSQL.
 - `src/main/java/org/example/web/HealthController.java`
 - `src/main/resources/application.properties`
 - `src/main/resources/config/application.properties` for the earlier JDBC smoke test
+- `src/main/resources/sqlite/ads_schema.sql` for the SQLite ADS schema
+- `src/main/resources/sqlite/ads_seed.sql` for repeatable sample data
+- `src/main/resources/sqlite/ads.db` for the generated SQLite database
 
 ## Run
 

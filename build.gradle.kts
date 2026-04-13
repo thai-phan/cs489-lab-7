@@ -24,8 +24,11 @@ repositories {
 dependencies {
     add("implementation", "org.springframework.boot:spring-boot-starter-web")
     add("implementation", "org.springframework.boot:spring-boot-starter-jdbc")
-    add("runtimeOnly", "org.postgresql:postgresql:42.7.4")
+    add("implementation", "org.springframework.boot:spring-boot-starter-data-jpa")
+    add("implementation", "jakarta.persistence:jakarta.persistence-api:3.1.0")
+    add("runtimeOnly", "org.postgresql:postgresql:42.7.7")
     add("testImplementation", "org.springframework.boot:spring-boot-starter-test")
+    add("testRuntimeOnly", "org.junit.platform:junit-platform-launcher")
 }
 
 tasks.named<Test>("test") {
