@@ -20,6 +20,24 @@ This project now includes a minimal Spring Boot MVC app backed by PostgreSQL.
 Then open:
 - `http://localhost:8080/` for the MVC-style status response
 - `http://localhost:8080/db/ping` to verify the PostgreSQL connection
+- `http://localhost:8080/graphql` for the GraphQL endpoint
+- `http://localhost:8080/graphiql` for the GraphiQL UI
 
-If you want to run the earlier JDBC smoke test main from your IDE, execute `org.example.ConnectionSmokeTest`.
+Example GraphQL query:
+
+```graphql
+query {
+  patients {
+	patientId
+	firstName
+	lastName
+	contactPhone
+	email
+	mailingAddress
+	dateOfBirth
+  }
+}
+```
+
+If you want to run the earlier JDBC smoke test main from your IDE, execute `cs489.asd.lab.ConnectionSmokeTest`.
 

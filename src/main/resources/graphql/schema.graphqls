@@ -1,0 +1,28 @@
+type Query {
+  patients: [Patient!]!
+  patient(patientId: ID!): Patient
+  searchPatients(searchString: String): [Patient!]!
+  addresses: [Address!]!
+}
+
+type Patient {
+  patientId: ID!
+  firstName: String!
+  lastName: String!
+  contactPhone: String!
+  email: String!
+  mailingAddress: String
+  dateOfBirth: String!
+}
+
+type Address {
+  patientId: ID!
+  firstName: String!
+  lastName: String!
+  email: String!
+  contactPhone: String!
+  mailingAddress: String!
+  city: String!
+  dateOfBirth: String!
+}
+

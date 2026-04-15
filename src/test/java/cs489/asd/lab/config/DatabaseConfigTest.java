@@ -1,4 +1,4 @@
-package org.example.config;
+package cs489.asd.lab.config;
 
 import org.junit.jupiter.api.Test;
 

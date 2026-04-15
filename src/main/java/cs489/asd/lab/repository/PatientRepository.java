@@ -1,8 +1,8 @@
-package org.example.repository;
+package cs489.asd.lab.repository;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.example.model.Patient;
+import cs489.asd.lab.model.Patient;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,12 +35,13 @@ public class PatientRepository {
             String mailingAddress
     ) {
         return entityManager.createQuery(
-                        "select p from Patient p " +
+                        "select p from Patient p left join p.primaryAddress a " +
                                 "where lower(p.firstName) like lower(concat('%', :firstName, '%')) " +
                                 "or lower(p.lastName) like lower(concat('%', :lastName, '%')) " +
                                 "or lower(p.email) like lower(concat('%', :email, '%')) " +
                                 "or lower(p.contactPhone) like lower(concat('%', :contactPhone, '%')) " +
-                                "or lower(p.mailingAddress) like lower(concat('%', :mailingAddress, '%')) " +
+                                "or lower(a.mailingAddress) like lower(concat('%', :mailingAddress, '%')) " +
+                                "or lower(a.city) like lower(concat('%', :mailingAddress, '%')) " +
                                 "order by p.lastName asc, p.firstName asc, p.patientId asc",
                         Patient.class)
                 .setParameter("firstName", firstName)

@@ -6,6 +6,7 @@ plugins {
     id("java")
     id("org.springframework.boot") version "3.3.5"
     id("io.spring.dependency-management") version "1.1.6"
+    id("io.freefair.lombok") version "8.6" // Use the latest version
 }
 
 group = "org.example"
@@ -22,13 +23,15 @@ repositories {
 }
 
 dependencies {
-    add("implementation", "org.springframework.boot:spring-boot-starter-web")
-    add("implementation", "org.springframework.boot:spring-boot-starter-jdbc")
-    add("implementation", "org.springframework.boot:spring-boot-starter-data-jpa")
-    add("implementation", "jakarta.persistence:jakarta.persistence-api:3.1.0")
-    add("runtimeOnly", "org.postgresql:postgresql:42.7.7")
-    add("testImplementation", "org.springframework.boot:spring-boot-starter-test")
-    add("testRuntimeOnly", "org.junit.platform:junit-platform-launcher")
+    implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-graphql")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("jakarta.persistence:jakarta.persistence-api:3.1.0")
+    runtimeOnly("org.postgresql:postgresql:42.7.7")
+    testImplementation("org.springframework.boot:spring-boot-starter-test")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+    add("lombok", "org.projectlombok:lombok")
 }
 
 tasks.named<Test>("test") {

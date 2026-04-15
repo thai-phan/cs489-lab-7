@@ -1,7 +1,7 @@
-package org.example.web;
+package cs489.asd.lab.controller;
 
-import org.example.model.Patient;
-import org.example.repository.PatientRepository;
+import cs489.asd.lab.model.Patient;
+import cs489.asd.lab.repository.PatientRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
