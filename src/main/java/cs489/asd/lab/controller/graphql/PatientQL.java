@@ -1,25 +1,29 @@
-package cs489.asd.lab.controller;
+package cs489.asd.lab.controller.graphql;
 
+import cs489.asd.lab.dto.AddressView;
+import cs489.asd.lab.dto.PatientView;
 import cs489.asd.lab.model.Address;
 import cs489.asd.lab.model.Patient;
 import cs489.asd.lab.repository.PatientRepository;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 
 import java.util.Comparator;
 import java.util.List;
 
 @Controller
-public class PatientGraphQlController {
+public class PatientQL {
 
     private final PatientRepository patientRepository;
 
-    public PatientGraphQlController(PatientRepository patientRepository) {
+    public PatientQL(PatientRepository patientRepository) {
         this.patientRepository = patientRepository;
     }
 
     @QueryMapping
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF','DENTIST','HYGIENIST')")
     public List<PatientView> patients() {
         return patientRepository.findAllByOrderByLastNameAscFirstNameAscPatientIdAsc()
                 .stream()
@@ -28,6 +32,7 @@ public class PatientGraphQlController {
     }
 
     @QueryMapping
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF','DENTIST','HYGIENIST')")
     public PatientView patient(@Argument long patientId) {
         return patientRepository.findById(patientId)
                 .map(this::toPatientView)
@@ -35,6 +40,7 @@ public class PatientGraphQlController {
     }
 
     @QueryMapping
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF','DENTIST','HYGIENIST')")
     public List<PatientView> searchPatients(@Argument String searchString) {
         String term = searchString == null ? "" : searchString.trim();
         if (term.isEmpty()) {
@@ -50,6 +56,7 @@ public class PatientGraphQlController {
     }
 
     @QueryMapping
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF','DENTIST','HYGIENIST')")
     public List<AddressView> addresses() {
         return patientRepository.findAllByOrderByLastNameAscFirstNameAscPatientIdAsc()
                 .stream()
@@ -85,29 +92,4 @@ public class PatientGraphQlController {
                 patient.getDateOfBirth() == null ? null : patient.getDateOfBirth().toString()
         );
     }
-
-
-    public record PatientView(
-            long patientId,
-            String firstName,
-            String lastName,
-            String contactPhone,
-            String email,
-            String mailingAddress,
-            String dateOfBirth
-    ) {
-    }
-
-    public record AddressView(
-            long patientId,
-            String firstName,
-            String lastName,
-            String email,
-            String contactPhone,
-            String mailingAddress,
-            String city,
-            String dateOfBirth
-    ) {
-    }
 }
-

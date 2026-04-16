@@ -1,8 +1,12 @@
 package cs489.asd.lab.controller;
 
+import cs489.asd.lab.dto.AddressResponse;
+import cs489.asd.lab.dto.PatientRequest;
+import cs489.asd.lab.dto.PatientResponse;
 import cs489.asd.lab.model.Patient;
 import cs489.asd.lab.repository.PatientRepository;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,12 +17,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 
 @RestController
 @RequestMapping("/adsweb/api/v1")
+@PreAuthorize("hasAnyRole('ADMIN','STAFF','DENTIST','HYGIENIST')")
 public class PatientController {
 
     private final PatientRepository patientRepository;
@@ -41,6 +45,7 @@ public class PatientController {
     }
 
     @PostMapping("/patients")
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     @ResponseStatus(HttpStatus.CREATED)
     public PatientResponse createPatient(@RequestBody PatientRequest request) {
         validate(request);
@@ -49,6 +54,7 @@ public class PatientController {
     }
 
     @PutMapping("/patient/{patientId}")
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     public PatientResponse updatePatient(@PathVariable long patientId, @RequestBody PatientRequest request) {
         validate(request);
         Patient patient = findPatientOrThrow(patientId);
@@ -62,6 +68,7 @@ public class PatientController {
     }
 
     @DeleteMapping("/patient/{patientId}")
+    @PreAuthorize("hasAnyRole('ADMIN','STAFF')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deletePatient(@PathVariable long patientId) {
         Patient patient = findPatientOrThrow(patientId);
@@ -169,37 +176,4 @@ public class PatientController {
         return mailingAddress.trim();
     }
 
-    public record PatientRequest(
-            String firstName,
-            String lastName,
-            String contactPhone,
-            String email,
-            String mailingAddress,
-            LocalDate dateOfBirth
-    ) {
-    }
-
-    public record PatientResponse(
-            long patientId,
-            String firstName,
-            String lastName,
-            String contactPhone,
-            String email,
-            String mailingAddress,
-            LocalDate dateOfBirth
-    ) {
-    }
-
-    public record AddressResponse(
-            long patientId,
-            String firstName,
-            String lastName,
-            String email,
-            String contactPhone,
-            String mailingAddress,
-            String city,
-            LocalDate dateOfBirth
-    ) {
-    }
 }
-
