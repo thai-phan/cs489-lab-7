@@ -30,6 +30,11 @@ public class ApiExceptionHandler {
         return build(HttpStatus.CONFLICT, message, request.getRequestURI());
     }
 
+    @ExceptionHandler(BusinessRuleViolationException.class)
+    public ResponseEntity<ApiError> handleBusinessRule(BusinessRuleViolationException ex, HttpServletRequest request) {
+        return build(HttpStatus.CONFLICT, ex.getMessage(), request.getRequestURI());
+    }
+
     @ExceptionHandler(AuthenticationException.class)
     public ResponseEntity<ApiError> handleAuthentication(AuthenticationException ex, HttpServletRequest request) {
         return build(HttpStatus.UNAUTHORIZED, ex.getMessage(), request.getRequestURI());
